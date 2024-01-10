@@ -7,20 +7,17 @@ import pro.sky.homework5javacore.exception.EmployeeStorageIsFullException;
 import pro.sky.homework5javacore.exception.EmployeeNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final     List<Employee> employees = new ArrayList<>(List.of(
-
-            new Employee("Ivan", "Ivanov"),
-
-            new Employee("Petr", "Petrov"),
-
-            new Employee("Maksim", "Sidorov"),
-
-            new Employee("Mikhail", "Mkhailov")));
+    private final List<Employee> employees;
+    public EmployeeServiceImpl(){
+        this.employees=new ArrayList<>();
+    }
 
     private static final int EMPLOYEE_SIZE = 5;
 
@@ -57,7 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
     @Override
-    public List<Employee> getAll() {
-        return employees;
+    public Collection<Employee> getAll() {
+        return Collections.unmodifiableList(employees);
     }
 }

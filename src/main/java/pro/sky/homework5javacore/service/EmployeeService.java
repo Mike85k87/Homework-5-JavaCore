@@ -2,6 +2,7 @@ package pro.sky.homework5javacore.service;
 
 import pro.sky.homework5javacore.object.Employee;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface EmployeeService {
@@ -11,5 +12,5 @@ public interface EmployeeService {
 
     Employee findEmployee(String firstName, String lastName);
 
-    List<Employee> getAll();
+    Collection<Employee> getAll();
 }
