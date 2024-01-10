@@ -3,8 +3,8 @@ package pro.sky.homework5javacore.object;
 import java.util.Objects;
 
 public class Employee {
-    private String firstName;
-    private String lastName;
+    private final String firstName;
+    private final String lastName;
 
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
@@ -12,28 +12,32 @@ public class Employee {
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Employee)) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(firstname, employee.firstname) && Objects.equals(lastname, employee.lastname);
+        return Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstname, lastname);
+        return Objects.hash(firstName, lastName);
     }
+
 
     @Override
     public String toString() {
-        return "Фамилия: " + this.lastName + " Имя: " + this.firstName;
+        return "Employee{" +
+                "firstname='" + firstName + '\'' +
+                ", lastname='" + lastName + '\'' +
+                '}';
     }
 }
