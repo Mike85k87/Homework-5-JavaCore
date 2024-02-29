@@ -1,9 +1,6 @@
 package pro.sky.homework5javacore.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pro.sky.homework5javacore.object.Employee;
 import pro.sky.homework5javacore.service.DepartmentService;
 
@@ -12,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/departments")
+@RequestMapping("/department")
 
 public class DepartmentController {
     private final DepartmentService departmentService;
@@ -21,24 +18,28 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/employees")
     public Map<Integer, List<Employee>> getAll() {
 
         return departmentService.getAll();
     }
 
-    @GetMapping(value = "/all", params = "departmentId")
-    public Collection<Employee> getAllDepartment(@RequestParam int departmentId) {
+    @GetMapping("/{id}/employees")
+    public Collection<Employee> getAllDepartment(@PathVariable int departmentId) {
         return departmentService.getEmployeesInDepartment(departmentId);
     }
 
-    @GetMapping(value = "/min-salary", params = "departmentId")
-    public Employee minsalary(@RequestParam int departmentId) {
+    @GetMapping("/{id}/salary/min")
+    public Employee minsalary(@PathVariable int departmentId) {
         return departmentService.minSalaryEmployee(departmentId);
     }
 
-    @GetMapping(value = "/max-salary", params = "departmentId")
-    public Employee maxsalary(@RequestParam int departmentId) {
+    @GetMapping("/{id}/salary/max")
+    public Employee maxsalary(@PathVariable int departmentId) {
         return departmentService.maxSalaryEmoloyee(departmentId);
+    }
+    @GetMapping("/{id}/salary/sum")
+    public double sumSalaryByDepartment(@PathVariable int departmentId) {
+        return departmentService.sumSalaryByDepartment(departmentId);
     }
 }

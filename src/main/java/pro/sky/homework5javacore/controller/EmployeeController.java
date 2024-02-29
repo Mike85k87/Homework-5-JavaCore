@@ -27,15 +27,17 @@ public class EmployeeController {
     }
 
     @GetMapping("/remove")
-    public Employee removeEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+    public Employee removeEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
+                                   @RequestParam("departmentId") int departmentId, @RequestParam("salary") double salary) {
         EmployeeNameValidator.validateIsAlpha(firstName, lastName);
-        return employeeService.removeEmployee(firstName, lastName);
+        return employeeService.removeEmployee(firstName, lastName, departmentId, salary);
     }
 
     @GetMapping("/find")
-    public Employee findEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+    public Employee findEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
+                                 @RequestParam("departmentId") int departmentId, @RequestParam("salary") double salary) {
         EmployeeNameValidator.validateIsAlpha(firstName, lastName);
-        return employeeService.findEmployee(firstName, lastName);
+        return employeeService.findEmployee(firstName, lastName, departmentId, salary);
     }
 
     @GetMapping()

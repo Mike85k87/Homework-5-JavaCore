@@ -25,7 +25,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return employeeService.getAll().stream()
                 .filter(employee -> employee.getDepartmentId() == departmentId)
                 .max(Comparator.comparingDouble(Employee::getSalary))
-                .orElseThrow(EmployeeNotFoundException::new);
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     @Override
@@ -47,5 +47,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Map<Integer, List<Employee>> getAll() {
         return employeeService.getAll().stream()
                 .collect(Collectors.groupingBy(Employee::getDepartmentId));
+    }
+    @Override
+    public double sumSalaryByDepartment(int departmentId) {
+        return employeeService.getAll()
+                .stream()
+                .filter(employee -> employee.getDepartmentId() == departmentId)
+                .mapToDouble(Employee::getSalary)
+                .sum();
+
     }
 }
