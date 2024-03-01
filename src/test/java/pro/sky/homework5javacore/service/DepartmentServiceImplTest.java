@@ -27,40 +27,40 @@ class DepartmentServiceImplTest {
                     "Petrover", 2, 30_000));
 
     @Test
-    void maxSalaryEmployee_shouldReturnEmployeeWithMaxSalaryWhenEmployeesInDepartment() {
+    void shouldReturnEmployeeWithMaxSalaryWhenEmployeesInDepartment() {
         when(employeeService.getAll()).thenReturn(employees);
         Employee result = departmentService.maxSalaryEmoloyee(employees.get(0).getDepartmentId());
         assertEquals(employees.get(1), result);
     }
 
     @Test
-    void maxSalaryEmployee_shouldThrowExceptionNotEmployeeInDepartment() {
+    void shouldThrowExceptionNotEmployeeInDepartmentWithMaxSalary() {
         when(employeeService.getAll()).thenReturn(Collections.emptyList());
         assertThrows(IllegalArgumentException.class,
                 () -> departmentService.maxSalaryEmoloyee(1));
     }
 
     @Test
-    void minSalaryEmployee_shouldReturnEmployeeWithMinSalaryWhenEmployeeInDepartment() {
+    void shouldReturnEmployeeWithMinSalaryWhenEmployeeInDepartment() {
         when(employeeService.getAll()).thenReturn(employees);
         Employee result = departmentService.minSalaryEmployee(employees.get(1).getDepartmentId());
         assertEquals(employees.get(0), result);
     }
     @Test
-    void minSalaryEmployee_shouldThrowExceptionNotEmployeeInDepartment() {
+    void shouldThrowExceptionNotEmployeeInDepartmentWithMinSalary() {
         when(employeeService.getAll()).thenReturn(Collections.emptyList());
         assertThrows(IllegalArgumentException.class,
-                () -> departmentService.maxSalaryEmoloyee(1));
+                () -> departmentService.minSalaryEmployee(1));
     }
 
     @Test
-    void getEmployeesInDepartment_shouldReturnEmployeesWhenEmployeesInDepartment() {
+    void shouldReturnEmployeesWhenEmployeesInDepartment() {
         when(employeeService.getAll()).thenReturn(employees);
         Collection<Employee> result = departmentService.getEmployeesInDepartment(employees.get(0).getDepartmentId());
         assertEquals(List.of(employees.get(0), employees.get(1)), result);
     }
     @Test
-    void getEmployeeInDepartment_shouldReturnEmptyListIfNotEmployeesInDepartment() {
+    void shouldReturnEmptyListIfNotEmployeesInDepartment() {
         int department = 1;
         List<Employee> emptyList = new ArrayList<>();
         when(employeeService.getAll()).thenReturn(emptyList);
@@ -69,7 +69,7 @@ class DepartmentServiceImplTest {
     }
 
     @Test
-    void getAll_shouldReturnMapWithEmployeeWhenEmployeeInDepartment() {
+    void shouldReturnMapWithEmployeeWhenEmployeeInDepartment() {
         when(employeeService.getAll()).thenReturn(employees);
         Map<Integer, List<Employee>> expectedMap = Map.of(
                 employees.get(1).getDepartmentId(), List.of(employees.get(0), employees.get(1)),
@@ -79,11 +79,18 @@ class DepartmentServiceImplTest {
     }
 
     @Test
-    void getAll_shouldReturnEmptyMapIfNotEmployeesInDepartment() {
+    void shouldReturnEmptyMapIfNotEmployeesInDepartment() {
         List<Employee> emptyList = new ArrayList<>();
         when(employeeService.getAll()).thenReturn(emptyList);
         Map<Integer, List<Employee>> result = departmentService.getAll();
         assertEquals(0, result.size());
     }
 
+    @Test
+    void shouldReturnSumSalaryOfDepartment() {
+        when(employeeService.getAll()).thenReturn(employees);
+        double expected = 330000;
+        double actual = departmentService.sumSalaryByDepartment(1);
+        assertEquals(expected,actual);
+    }
 }

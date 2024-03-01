@@ -11,16 +11,17 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static pro.sky.homework5javacore.service.EmployeeServiceImpl.EMPLOYEE_SIZE;
 
 class EmployeeServiceImplTest {
     private EmployeeServiceImpl underTest;
+    private final Employee expectedEmployee = new Employee("Mike", "Petrov", 1, 89000);
 
     @BeforeEach
     void beforeEach() {
         underTest = new EmployeeServiceImpl();
     }
 
-    private Employee expectedEmployee = new Employee("Mike", "Petrov", 1, 89000);
     @Test
     void shouldAddEmployeeToListAndReturnEmployee() {
 
@@ -30,22 +31,21 @@ class EmployeeServiceImplTest {
                 expectedEmployee.getSalary());
 
         assertTrue(underTest.getAll().contains(expectedEmployee));
-        assertEquals(expectedEmployee,result);
+        assertEquals(expectedEmployee, result);
     }
 
     @Test
     void shouldThrowExceptionWhenNotEnoughSize() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < EMPLOYEE_SIZE; i++) {
             underTest.addEmployee((expectedEmployee.getFirstName() + i),
                     (expectedEmployee.getLastName() + i),
                     expectedEmployee.getDepartmentId(),
                     expectedEmployee.getSalary());
         }
-        EmployeeStorageIsFullException employeeStorageIsFullException =
-                assertThrows(EmployeeStorageIsFullException.class, () -> underTest.addEmployee(expectedEmployee.getFirstName(),
-                        expectedEmployee.getLastName(),
-                        expectedEmployee.getDepartmentId(),
-                        expectedEmployee.getSalary()));
+        assertThrows(EmployeeStorageIsFullException.class, () -> underTest.addEmployee(expectedEmployee.getFirstName(),
+                expectedEmployee.getLastName(),
+                expectedEmployee.getDepartmentId(),
+                expectedEmployee.getSalary()));
 
     }
 
@@ -56,12 +56,11 @@ class EmployeeServiceImplTest {
                 expectedEmployee.getDepartmentId(),
                 expectedEmployee.getSalary());
 
-        EmployeeAlreadyAddedException employeeAlreadyAddedException =
-                assertThrows(EmployeeAlreadyAddedException.class, () -> underTest.addEmployee(
-                        expectedEmployee.getFirstName(),
-                        expectedEmployee.getLastName(),
-                        expectedEmployee.getDepartmentId(),
-                        expectedEmployee.getSalary()));
+        assertThrows(EmployeeAlreadyAddedException.class, () -> underTest.addEmployee(
+                expectedEmployee.getFirstName(),
+                expectedEmployee.getLastName(),
+                expectedEmployee.getDepartmentId(),
+                expectedEmployee.getSalary()));
 
     }
 
@@ -92,7 +91,7 @@ class EmployeeServiceImplTest {
                 expectedEmployee.getDepartmentId(),
                 expectedEmployee.getSalary());
 
-        EmployeeNotFoundException employeeNotFoundException = assertThrows(EmployeeNotFoundException.class,
+        assertThrows(EmployeeNotFoundException.class,
                 () -> underTest.removeEmployee(employee.getFirstName(),
                         employee.getLastName(),
                         employee.getDepartmentId(),
@@ -113,17 +112,13 @@ class EmployeeServiceImplTest {
                 expectedEmployee.getSalary());
 
         assertTrue(underTest.getAll().contains(employee));
-        assertEquals(expectedEmployee,employee);
+        assertEquals(expectedEmployee, employee);
     }
 
     @Test
-    void findEmployee_ShouldThrowEmployeeNotFoundException() {
+    void ShouldThrowEmployeeNotFoundExceptionWhenFindingEmployee() {
         Employee employee = new Employee("Nik", "Bakov", 2, 56000);
-        underTest.addEmployee(expectedEmployee.getFirstName(),
-                expectedEmployee.getLastName(),
-                expectedEmployee.getDepartmentId(),
-                expectedEmployee.getSalary());
-        assertThrows(EmployeeNotFoundException.class,()
+        assertThrows(EmployeeNotFoundException.class, ()
                 -> underTest.findEmployee(employee.getFirstName(),
                 employee.getLastName(),
                 employee.getDepartmentId(),
@@ -140,7 +135,7 @@ class EmployeeServiceImplTest {
 
         Collection<Employee> result = underTest.getAll();
 
-        assertTrue(result.containsAll(List.of(expectedEmployee,employee)));
+        assertTrue(result.containsAll(List.of(expectedEmployee, employee)));
     }
 
     @Test

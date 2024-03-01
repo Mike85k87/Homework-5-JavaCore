@@ -17,23 +17,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employees = new HashMap<>();
     }
 
-    private final static int EMPLOYEE_SIZE = 2;
+    public final static int EMPLOYEE_SIZE = 2;
+
     private String makeKey(String firstName, String lastName) {
         return (firstName + " " + lastName);
     }
+
     @Override
-    public Employee addEmployee(String firstName, String lastName, int departmentId, double salary) throws EmployeeStorageIsFullException {
-        if (employees.size() > EMPLOYEE_SIZE) {
-            throw new EmployeeStorageIsFullException();}
+    public Employee addEmployee(String firstName, String lastName, int departmentId, double salary){
+        if (employees.size() + 1 > EMPLOYEE_SIZE) {
+            throw new EmployeeStorageIsFullException();
+        }
         Employee employee = new Employee(firstName, lastName, departmentId, salary);
         String key = makeKey(firstName, lastName);
         if (employees.containsKey(key)) {
-            throw new EmployeeAlreadyAddedException("Уже есть такой сотрудник в фирме");
+            throw new EmployeeAlreadyAddedException();
         }
-        employees.put(employee.getFullName(), employee);
+        employees.put(key, employee);
         return employee;
     }
-
 
 
     @Override
@@ -49,13 +51,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee findEmployee(String firstName, String lastName, int departmentId, double salary) {
         String key = makeKey(firstName, lastName);
         if (!employees.containsKey(key)) {
-    throw new EmployeeNotFoundException();
+            throw new EmployeeNotFoundException();
         }
         return employees.get(key);
     }
 
     @Override
     public Collection<Employee> getAll() {
-        return Collections.unmodifiableCollection(employees.values());
+        return employees.values();
     }
 }
